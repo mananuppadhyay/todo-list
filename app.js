@@ -40,8 +40,7 @@ function addTodo(event){
 
     //Append to list
     todoList.appendChild(todoDiv);
-    todoInput.value = "";
-
+    
    //Add todos to local storage
    saveLocalTodos(todoInput.value);
 
@@ -52,10 +51,10 @@ function deleteCheck(e){
     if(item.classList[0] === "trash-btn"){
      const todo = item.parentElement;
      todo.classList.add("fall");
+     removeLocalTodos(todo);
      todo.addEventListener('transitionend', function(){
          todo.remove();
      })
-    
     }
     
     if(item.classList[0] === "complete-btn"){
@@ -143,7 +142,7 @@ function getTodos(){
     
 }
 
-function removeLocalTodos(filterTodo)
+function removeLocalTodos(todo)
 {
     let todos;
     if(localStorage.getItem('todos') === null) {
@@ -151,6 +150,11 @@ function removeLocalTodos(filterTodo)
     } else{
         todos= JSON.parse(localStorage.getItem("todos"));
     }
+
+    const todoIndex = todo.children[0].innerText;
+    todos.splice(todos.indexOf(todoIndex),1);
+    localStorage.setItem("todos", JSON.stringify(todos));
 }
+
 
 
